@@ -1,59 +1,62 @@
+// ---------- Ilustraciones (SVG originales, sin dependencias externas) ----------
+const ICONS = {
+  book: `<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M32 16c-6-4-14-5-20-3v34c6-2 14-1 20 3"/>
+    <path d="M32 16c6-4 14-5 20-3v34c-6-2-14-1-20 3"/>
+    <line x1="32" y1="16" x2="32" y2="50"/></svg>`,
+  person: `<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="32" cy="20" r="9"/>
+    <path d="M16 54c0-11 7-18 16-18s16 7 16 18"/></svg>`,
+  hand: `<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M22 56V34a4 4 0 0 1 8 0v8M30 42V24a4 4 0 0 1 8 0v14M38 38V22a4 4 0 0 1 8 0v16M46 38V30a4 4 0 0 1 8 0v12c0 9-6 16-15 16h-3c-8 0-13-5-13-13"/></svg>`,
+  compass: `<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="32" cy="32" r="21"/>
+    <path d="M32 17 L38 32 L32 47 L26 32 Z" fill="currentColor" stroke="none"/></svg>`,
+  dove: `<svg viewBox="0 0 64 64" fill="currentColor" stroke="none">
+    <path d="M6 38c10-2 16-10 22-13 8-4 15-2 18 2-4 0-8 2-10 5 8 0 13 3 16 8-9-2-14 0-18 4-6 6-16 8-28 4 6-1 10-3 12-7-6 1-10-1-12-3Z"/></svg>`,
+  star: `<svg viewBox="0 0 64 64" fill="currentColor" stroke="none">
+    <path d="M32 6 L38.5 24 L58 24 L42 35.5 L48 54 L32 42.5 L16 54 L22 35.5 L6 24 L25.5 24 Z"/></svg>`,
+  scroll: `<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="14" y="20" width="36" height="24" rx="2"/>
+    <circle cx="12" cy="32" r="6"/><circle cx="52" cy="32" r="6"/>
+    <line x1="21" y1="28" x2="43" y2="28"/><line x1="21" y1="36" x2="38" y2="36"/></svg>`,
+  hearts: `<svg viewBox="0 0 64 64" fill="currentColor" stroke="none">
+    <path opacity=".55" d="M40 46C24 36 20 24 28 18c5-4 10-1 10 5 0-6 5-9 10-5 8 6 4 18-8 28Z" transform="translate(-4,-4) scale(.9)"/>
+    <path d="M34 52C18 42 14 30 22 24c5-4 10-1 10 5 0-6 5-9 10-5 8 6 4 18-8 28Z"/></svg>`,
+  rings: `<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3">
+    <circle cx="24" cy="36" r="13"/><circle cx="40" cy="36" r="13"/>
+    <path d="M38 18 L41 24 L35 24 Z" fill="currentColor" stroke="none"/></svg>`
+};
+
 // ---------- Datos del mapa mental ----------
 const NODES = [
-  {
-    title: "Introducción y conceptos básicos",
-    icon: "🔎", color: "#ff6b6b",
+  { title: "Introducción y conceptos básicos", icon: "book", color: "#ff6b6b",
     def: "La ética es la rama de la filosofía que estudia la moralidad de los actos humanos: lo que es bueno o malo en la conducta de las personas. Se distingue de la moral (las normas vividas) porque la ética las reflexiona y fundamenta.",
-    ej: "Cuando devuelvo el cambio de más que me dieron en una tienda, estoy aplicando un criterio ético, no solo una regla aprendida."
-  },
-  {
-    title: "La persona humana",
-    icon: "🧑", color: "#4ecdc4",
+    ej: "Cuando devuelvo el cambio de más que me dieron en una tienda, estoy aplicando un criterio ético, no solo una regla aprendida." },
+  { title: "La persona humana", icon: "person", color: "#4ecdc4",
     def: "Ser dotado de razón, libertad y dignidad, capaz de conocerse a sí mismo, de decidir y de relacionarse con los demás como fin y nunca solo como medio.",
-    ej: "Respeto la opinión de un compañero de trabajo aunque piense distinto a mí, porque reconozco su dignidad como persona."
-  },
-  {
-    title: "Los actos humanos",
-    icon: "🙋", color: "#ffc53d",
+    ej: "Respeto la opinión de un compañero de trabajo aunque piense distinto a mí, porque reconozco su dignidad como persona." },
+  { title: "Los actos humanos", icon: "hand", color: "#ffc53d",
     def: "Acciones realizadas con conocimiento y libertad, de las que la persona es responsable; se distinguen de los simples «actos del hombre» (reflejos, instintos) por ser voluntarias.",
-    ej: "Estudiar para un examen es un acto humano, porque decido libremente sentarme a repasar en vez de salir con amigos."
-  },
-  {
-    title: "La conciencia moral",
-    icon: "🧭", color: "#5fbf64",
+    ej: "Estudiar para un examen es un acto humano, porque decido libremente sentarme a repasar en vez de salir con amigos." },
+  { title: "La conciencia moral", icon: "compass", color: "#5fbf64",
     def: "Juicio interior por el cual la persona reconoce si un acto concreto es bueno o malo, y que la orienta a obrar bien y evitar el mal.",
-    ej: "Sentí remordimiento al haber ocultado la verdad a mi familia; mi conciencia me lo señaló antes de que nadie me lo dijera."
-  },
-  {
-    title: "Libertad y responsabilidad",
-    icon: "🕊️", color: "#4d96ff",
+    ej: "Sentí remordimiento al haber ocultado la verdad a mi familia; mi conciencia me lo señaló antes de que nadie me lo dijera." },
+  { title: "Libertad y responsabilidad", icon: "dove", color: "#4d96ff",
     def: "La libertad es la capacidad de autodeterminarse; la responsabilidad es asumir las consecuencias de lo que se decide libremente.",
-    ej: "Elegí mi carrera universitaria y por eso asumo con disciplina el esfuerzo que implica terminarla."
-  },
-  {
-    title: "Valores y virtudes morales",
-    icon: "🌟", color: "#b983ff",
+    ej: "Elegí mi carrera universitaria y por eso asumo con disciplina el esfuerzo que implica terminarla." },
+  { title: "Valores y virtudes morales", icon: "star", color: "#b983ff",
     def: "Cualidades estables que orientan la conducta hacia el bien, como la honestidad, la justicia, la prudencia y la fortaleza.",
-    ej: "Procuro practicar la puntualidad como un valor diario, incluso cuando nadie lo exige."
-  },
-  {
-    title: "La ley moral",
-    icon: "📜", color: "#ff9f45",
+    ej: "Procuro practicar la puntualidad como un valor diario, incluso cuando nadie lo exige." },
+  { title: "La ley moral", icon: "scroll", color: "#ff9f45",
     def: "Conjunto de normas que orientan al ser humano hacia su bien y su fin propio; la ley natural está inscrita en la razón, y la ley positiva la concretan las autoridades civiles o religiosas.",
-    ej: "Respetar la vida de los demás lo reconozco como una exigencia de la ley natural, sin que nadie tenga que imponérmelo."
-  },
-  {
-    title: "Ética y sexualidad",
-    icon: "💗", color: "#ff6fb1",
+    ej: "Respetar la vida de los demás lo reconozco como una exigencia de la ley natural, sin que nadie tenga que imponérmelo." },
+  { title: "Ética y sexualidad", icon: "hearts", color: "#ff6fb1",
     def: "Reflexión sobre el sentido y el ejercicio responsable de la sexualidad humana, integrada al amor, al respeto y a la dignidad de la otra persona.",
-    ej: "Valoro más el respeto y la comunicación en una relación de pareja que la búsqueda de una satisfacción inmediata."
-  },
-  {
-    title: "Ética y matrimonio",
-    icon: "💍", color: "#17a2b8",
+    ej: "Valoro más el respeto y la comunicación en una relación de pareja que la búsqueda de una satisfacción inmediata." },
+  { title: "Ética y matrimonio", icon: "rings", color: "#17a2b8",
     def: "Estudio de los principios morales que fundamentan el matrimonio como una unión libre, fiel, exclusiva y orientada al bien de los cónyuges y de los hijos.",
-    ej: "Admiro el compromiso de mis padres, que después de muchos años siguen apoyándose mutuamente en las dificultades."
-  }
+    ej: "Admiro el compromiso de mis padres, que después de muchos años siguen apoyándose mutuamente en las dificultades." }
 ];
 
 // ---------- Referencias ----------
@@ -63,10 +66,9 @@ const hub = document.getElementById("hub");
 const viewport = document.getElementById("viewport");
 const stage = document.getElementById("stage");
 
-const CENTER = 620; // centro del lienzo de 1240x1240
+const CENTER = 620;
 const RADIUS = 420;
 
-// ---------- Construir nodos y líneas ----------
 const nodeEls = [];
 const pathEls = [];
 
@@ -75,7 +77,6 @@ NODES.forEach((n, i) => {
   const x = CENTER + RADIUS * Math.cos(angle);
   const y = CENTER + RADIUS * Math.sin(angle);
 
-  // curva de conexión (bezier cuadrática con leve desvío perpendicular)
   const dx = x - CENTER, dy = y - CENTER;
   const len = Math.sqrt(dx * dx + dy * dy);
   const nx = -dy / len, ny = dx / len;
@@ -96,27 +97,24 @@ NODES.forEach((n, i) => {
   node.style.left = x + "px";
   node.style.top = y + "px";
   node.innerHTML = `
-    <div class="head"><span class="ico">${n.icon}</span><h3>${i + 1}. ${n.title}</h3></div>
+    <div class="head"><span class="ico">${ICONS[n.icon]}</span><h3>${i + 1}. ${n.title}</h3></div>
     <p class="def">${n.def}</p>
     <p class="ej"><b>Ejemplo personal:</b> ${n.ej}</p>
   `;
   map.appendChild(node);
   nodeEls.push(node);
 
-  node.addEventListener("click", (e) => {
-    e.stopPropagation();
-    focusNode(i);
-  });
+  node.addEventListener("click", (e) => { e.stopPropagation(); focusNode(i); });
 });
 
-// ---------- Animación de entrada ----------
-requestAnimationFrame(() => {
+// ---------- Animación de entrada (se dispara al salir de la bienvenida) ----------
+let started = false;
+function startMap() {
+  if (started) return;
+  started = true;
   hub.classList.add("show");
   setTimeout(() => hub.classList.add("pulse"), 700);
-  nodeEls.forEach((el, i) => {
-    setTimeout(() => el.classList.add("show"), 250 + i * 90);
-  });
-  // dibujar líneas progresivamente
+  nodeEls.forEach((el, i) => setTimeout(() => el.classList.add("show"), 250 + i * 90));
   pathEls.forEach((p, i) => {
     const length = p.getTotalLength();
     p.style.strokeDasharray = length;
@@ -126,7 +124,7 @@ requestAnimationFrame(() => {
       p.style.strokeDashoffset = 0;
     }, 200 + i * 90);
   });
-});
+}
 
 // ---------- Enfocar / resaltar un tema ----------
 let focused = null;
@@ -149,53 +147,53 @@ hub.addEventListener("click", clearFocus);
 viewport.addEventListener("click", clearFocus);
 
 // ---------- Pan y zoom ----------
-let scale = 1, panX = 0, panY = 0;
+let scale = 0.72, panX = 0, panY = 0;
 let dragging = false, lastX = 0, lastY = 0;
 
 function applyTransform() {
   stage.style.transform = `translate(-50%,-50%) translate(${panX}px, ${panY}px)`;
   map.style.transform = `scale(${scale})`;
 }
-
 viewport.addEventListener("pointerdown", (e) => {
-  dragging = true;
-  lastX = e.clientX; lastY = e.clientY;
+  dragging = true; lastX = e.clientX; lastY = e.clientY;
   viewport.classList.add("dragging");
 });
 window.addEventListener("pointermove", (e) => {
   if (!dragging) return;
-  panX += e.clientX - lastX;
-  panY += e.clientY - lastY;
+  panX += e.clientX - lastX; panY += e.clientY - lastY;
   lastX = e.clientX; lastY = e.clientY;
   applyTransform();
 });
-window.addEventListener("pointerup", () => {
-  dragging = false;
-  viewport.classList.remove("dragging");
-});
-
+window.addEventListener("pointerup", () => { dragging = false; viewport.classList.remove("dragging"); });
 viewport.addEventListener("wheel", (e) => {
   e.preventDefault();
-  const delta = e.deltaY > 0 ? -0.08 : 0.08;
-  scale = Math.min(1.6, Math.max(0.35, scale + delta));
+  scale = Math.min(1.6, Math.max(0.35, scale + (e.deltaY > 0 ? -0.08 : 0.08)));
   applyTransform();
 }, { passive: false });
 
 document.getElementById("zoomIn").onclick = () => { scale = Math.min(1.6, scale + 0.12); applyTransform(); };
 document.getElementById("zoomOut").onclick = () => { scale = Math.max(0.35, scale - 0.12); applyTransform(); };
-document.getElementById("reset").onclick = () => { scale = 1; panX = 0; panY = 0; applyTransform(); clearFocus(); };
-
-// vista inicial ligeramente alejada para ver todo el mapa
-scale = 0.72;
+document.getElementById("reset").onclick = () => { scale = 0.72; panX = 0; panY = 0; applyTransform(); clearFocus(); };
 applyTransform();
 
 // ---------- Tema claro / oscuro ----------
 const root = document.documentElement;
-const saved = localStorage.getItem("mindmap-theme");
-if (saved) root.setAttribute("data-theme", saved);
-
+const savedTheme = localStorage.getItem("mindmap-theme");
+if (savedTheme) root.setAttribute("data-theme", savedTheme);
 document.getElementById("theme").onclick = () => {
   const next = root.getAttribute("data-theme") === "light" ? "dark" : "light";
   root.setAttribute("data-theme", next);
   localStorage.setItem("mindmap-theme", next);
 };
+
+// ---------- Bienvenida ----------
+const welcome = document.getElementById("welcome");
+document.getElementById("startBtn").addEventListener("click", () => {
+  welcome.classList.add("hide");
+  startMap();
+});
+
+// ---------- Credencial (flip) ----------
+document.getElementById("idcard").addEventListener("click", function () {
+  this.classList.toggle("flipped");
+});
