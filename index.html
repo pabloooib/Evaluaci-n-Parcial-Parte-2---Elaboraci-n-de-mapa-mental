@@ -1,1 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mapa mental — Ética General</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700;900&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
 
+  <div class="bg-glow g1"></div>
+  <div class="bg-glow g2"></div>
+
+  <header>
+    <h1>Mapa mental — Ética General</h1>
+    <p>De la introducción y los conceptos básicos hasta la ética del matrimonio.</p>
+    <p class="hint">Arrastra para mover · rueda / pellizco para hacer zoom · clic en un tema para resaltarlo</p>
+  </header>
+
+  <div class="toolbar">
+    <button id="zoomIn" title="Acercar">＋</button>
+    <button id="zoomOut" title="Alejar">－</button>
+    <button id="reset" title="Restablecer vista">⤾</button>
+    <button id="theme" title="Cambiar tema">🌗</button>
+  </div>
+
+  <div class="viewport" id="viewport">
+    <div class="stage" id="stage">
+      <div class="map" id="map">
+        <svg class="lines" id="lines"></svg>
+        <div class="hub" id="hub">
+          <div class="ico">⚖️</div>
+          <div class="t1">ÉTICA<br>GENERAL</div>
+          <div class="t2">Reflexión sobre el bien y el actuar humano</div>
+        </div>
+        <!-- los nodos se generan dinámicamente con JavaScript -->
+      </div>
+    </div>
+  </div>
+
+  <footer>Mapa mental interactivo · HTML, CSS y JavaScript puro</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
