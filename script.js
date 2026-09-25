@@ -88,6 +88,7 @@ NODES.forEach((n, i) => {
   path.setAttribute("d", `M ${CENTER} ${CENTER} Q ${mx} ${my} ${x} ${y}`);
   path.setAttribute("stroke", n.color);
   path.style.color = n.color;
+  path.style.animationDelay = (i * 0.15) + "s";
   svg.appendChild(path);
   pathEls.push(path);
 
@@ -104,7 +105,7 @@ NODES.forEach((n, i) => {
   map.appendChild(node);
   nodeEls.push(node);
 
-  node.addEventListener("click", (e) => { e.stopPropagation(); focusNode(i); });
+  node.addEventListener("click", (e) => { e.stopPropagation(); focusNode(i); openPanel(i); });
 });
 
 // ---------- Animación de entrada (se dispara al salir de la bienvenida) ----------
@@ -115,15 +116,6 @@ function startMap() {
   hub.classList.add("show");
   setTimeout(() => hub.classList.add("pulse"), 700);
   nodeEls.forEach((el, i) => setTimeout(() => el.classList.add("show"), 250 + i * 90));
-  pathEls.forEach((p, i) => {
-    const length = p.getTotalLength();
-    p.style.strokeDasharray = length;
-    p.style.strokeDashoffset = length;
-    setTimeout(() => {
-      p.style.transition = "stroke-dashoffset 1s ease";
-      p.style.strokeDashoffset = 0;
-    }, 200 + i * 90);
-  });
 }
 
 // ---------- Enfocar / resaltar un tema ----------
@@ -143,8 +135,38 @@ function clearFocus() {
   nodeEls.forEach(el => el.classList.remove("dim", "focused"));
   pathEls.forEach(p => p.classList.remove("active", "dim"));
 }
-hub.addEventListener("click", clearFocus);
-viewport.addEventListener("click", clearFocus);
+hub.addEventListener("click", () => { clearFocus(); closePanel(); });
+viewport.addEventListener("click", () => { clearFocus(); closePanel(); });
+
+// ---------- Panel lateral de lectura ----------
+const panel = document.getElementById("panel");
+const panelBackdrop = document.getElementById("panelBackdrop");
+const panelIco = document.getElementById("panelIco");
+const panelEyebrow = document.getElementById("panelEyebrow");
+const panelTitle = document.getElementById("panelTitle");
+const panelDef = document.getElementById("panelDef");
+const panelEj = document.getElementById("panelEj");
+const panelClose = document.getElementById("panelClose");
+
+function openPanel(i) {
+  const n = NODES[i];
+  panel.style.setProperty("--panel-c", n.color);
+  panelIco.innerHTML = ICONS[n.icon];
+  panelEyebrow.textContent = `Tema ${i + 1} de ${NODES.length}`;
+  panelTitle.textContent = n.title;
+  panelDef.textContent = n.def;
+  panelEj.textContent = n.ej;
+  panel.classList.add("open");
+  panel.setAttribute("aria-hidden", "false");
+  panelBackdrop.classList.add("open");
+}
+function closePanel() {
+  panel.classList.remove("open");
+  panel.setAttribute("aria-hidden", "true");
+  panelBackdrop.classList.remove("open");
+}
+panelClose.addEventListener("click", (e) => { e.stopPropagation(); closePanel(); clearFocus(); });
+panelBackdrop.addEventListener("click", () => { closePanel(); clearFocus(); });
 
 // ---------- Pan y zoom ----------
 let scale = 0.72, panX = 0, panY = 0;
@@ -173,7 +195,7 @@ viewport.addEventListener("wheel", (e) => {
 
 document.getElementById("zoomIn").onclick = () => { scale = Math.min(1.6, scale + 0.12); applyTransform(); };
 document.getElementById("zoomOut").onclick = () => { scale = Math.max(0.35, scale - 0.12); applyTransform(); };
-document.getElementById("reset").onclick = () => { scale = 0.72; panX = 0; panY = 0; applyTransform(); clearFocus(); };
+document.getElementById("reset").onclick = () => { scale = 0.72; panX = 0; panY = 0; applyTransform(); clearFocus(); closePanel(); };
 applyTransform();
 
 // ---------- Tema claro / oscuro ----------
@@ -186,11 +208,64 @@ document.getElementById("theme").onclick = () => {
   localStorage.setItem("mindmap-theme", next);
 };
 
-// ---------- Bienvenida ----------
+// ---------- Partículas ambientales de la bienvenida ----------
+const particlesLayer = document.getElementById("particles");
+let ambientTimer = null;
+function spawnAmbientParticle() {
+  const p = document.createElement("div");
+  const size = 2 + Math.random() * 4;
+  p.className = "particle";
+  p.style.width = p.style.height = size + "px";
+  p.style.left = Math.random() * 100 + "%";
+  p.style.top = 40 + Math.random() * 55 + "%";
+  p.style.animationDuration = (4 + Math.random() * 4) + "s";
+  particlesLayer.appendChild(p);
+  setTimeout(() => p.remove(), 8500);
+}
+function startAmbientParticles() {
+  ambientTimer = setInterval(spawnAmbientParticle, 260);
+}
+function stopAmbientParticles() { clearInterval(ambientTimer); }
+startAmbientParticles();
+
+// ---------- Ráfaga de partículas al cruzar el umbral ----------
+const burstLayer = document.getElementById("burstLayer");
+function burstAt(x, y) {
+  const count = 26;
+  for (let i = 0; i < count; i++) {
+    const d = document.createElement("div");
+    d.className = "burst-dot";
+    const angle = (Math.PI * 2 * i) / count + Math.random() * 0.3;
+    const dist = 80 + Math.random() * 220;
+    d.style.left = x + "px";
+    d.style.top = y + "px";
+    d.style.setProperty("--bx", Math.cos(angle) * dist + "px");
+    d.style.setProperty("--by", Math.sin(angle) * dist + "px");
+    d.style.animationDelay = (Math.random() * 0.15) + "s";
+    burstLayer.appendChild(d);
+    setTimeout(() => d.remove(), 1100);
+  }
+}
+
+// ---------- Bienvenida: cruzar el umbral ----------
 const welcome = document.getElementById("welcome");
-document.getElementById("startBtn").addEventListener("click", () => {
-  welcome.classList.add("hide");
+const startBtn = document.getElementById("startBtn");
+
+startBtn.addEventListener("click", () => {
+  const rect = startBtn.getBoundingClientRect();
+  const ox = rect.left + rect.width / 2;
+  const oy = rect.top + rect.height / 2;
+
+  welcome.style.setProperty("--ox", ox + "px");
+  welcome.style.setProperty("--oy", oy + "px");
+
+  burstAt(ox, oy);
+  stopAmbientParticles();
+  welcome.classList.add("exit");
+  viewport.classList.add("enter");
   startMap();
+
+  setTimeout(() => { welcome.classList.add("gone"); }, 900);
 });
 
 // ---------- Credencial (flip) ----------
