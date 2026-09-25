@@ -55,6 +55,7 @@ const ICONS = {
 const UNITS = [
   {
     roman: "I", title: "Introducción y Conceptos Básicos", color: "#ff6b6b", hero: "heroBook",
+    summary: "Repaso de ideas previas y las definiciones que sostienen todo el curso.",
     topics: [
       { num: "1", title: "Introducción", icon: "compass",
         desc: "Punto de partida del curso: se retoman ideas previas para preparar el terreno antes de entrar a los conceptos éticos propiamente dichos.",
@@ -66,6 +67,7 @@ const UNITS = [
   },
   {
     roman: "II", title: "Principio Bíblico de Carácter Cristiano", color: "#4d96ff", hero: "heroBible",
+    summary: "Cómo temperamento, carácter y personalidad se equilibran bajo un mismo principio.",
     topics: [
       { num: "3", title: "Principio de Carácter Cristiano", icon: "star",
         desc: "Cómo se forma y equilibra el carácter cristiano, integrando temperamento, carácter y personalidad.",
@@ -74,6 +76,7 @@ const UNITS = [
   },
   {
     roman: "III", title: "Ámbitos de Aplicación de la Ética", color: "#5fbf64", hero: "heroPath",
+    summary: "La ética puesta en práctica: en la historia y en la vida individual.",
     topics: [
       { num: "4", title: "Ética a través del tiempo", icon: "scroll",
         desc: "Un recorrido histórico por la ética, observando cómo la vivieron figuras determinantes.",
@@ -135,6 +138,7 @@ UNITS.forEach((unit, ui) => {
     <div class="hero-ico">${ICONS[unit.hero]}</div>
     <p class="roman">UNIDAD ${unit.roman}</p>
     <h3>${unit.title}</h3>
+    <p class="unit-summary">${unit.summary}</p>
     <span class="toggle-hint"><span id="hint-${ui}">Ver ${unit.topics.length} tema${unit.topics.length > 1 ? "s" : ""}</span> <span class="chevron">▾</span></span>
   `;
   map.appendChild(unode);
@@ -159,10 +163,13 @@ UNITS.forEach((unit, ui) => {
     tnode.style.setProperty("--c", unit.color);
     tnode.style.left = tp.x + "px";
     tnode.style.top = tp.y + "px";
+    const listHtml = topic.items.slice(0, 4).map(it => `<li>${it}</li>`).join("");
+    const moreHtml = topic.items.length > 4 ? `<li class="more">+ ${topic.items.length - 4} más…</li>` : "";
     tnode.innerHTML = `
       <div class="head"><span class="ico">${ICONS[topic.icon]}</span><h4>${topic.num}. ${topic.title}</h4></div>
-      <p class="count">${topic.items.length} subtemas</p>
-      <p class="read-hint">Leer contenido →</p>
+      <p class="def">${topic.desc}</p>
+      <ul class="mini-list">${listHtml}${moreHtml}</ul>
+      <p class="read-hint">Ver contenido completo →</p>
     `;
     map.appendChild(tnode);
 
